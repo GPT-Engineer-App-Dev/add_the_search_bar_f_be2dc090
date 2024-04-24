@@ -1,0 +1,66 @@
+import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input, VStack, useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
+const CreateAllergen = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {
+      code: formData.get("code"),
+      name: {
+        EN: formData.get("name_EN"),
+        IT: formData.get("name_IT"),
+        FR: formData.get("name_FR"),
+        // Add additional languages as needed
+      },
+    };
+
+    // Here you would normally make an API POST request to create a new allergen
+    // For now, let's just show a toast notification
+    toast({
+      title: "Allergen Created",
+      description: "A new allergen has been added.",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+
+    navigate("/allergens");
+  };
+
+  return (
+    <Flex h="100vh" align="center" justify="center">
+      <Container>
+        <VStack as="form" onSubmit={handleSubmit} spacing={4} align="stretch">
+          <Heading as="h1" size="lg" mb={4}>
+            Create New Allergen
+          </Heading>
+          <FormControl isRequired>
+            <FormLabel htmlFor="code">Allergen Code</FormLabel>
+            <Input id="code" name="code" placeholder="Allergen Code" />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel htmlFor="name_EN">Name (EN)</FormLabel>
+            <Input id="name_EN" name="name_EN" placeholder="Name in English" />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel htmlFor="name_IT">Name (IT)</FormLabel>
+            <Input id="name_IT" name="name_IT" placeholder="Name in Italian" />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel htmlFor="name_FR">Name (FR)</FormLabel>
+            <Input id="name_FR" name="name_FR" placeholder="Name in French" />
+          </FormControl>
+          <Button type="submit" colorScheme="blue">
+            Submit
+          </Button>
+        </VStack>
+      </Container>
+    </Flex>
+  );
+};
+
+export default CreateAllergen;
